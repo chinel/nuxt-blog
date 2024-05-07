@@ -1,7 +1,18 @@
 <template>
-  <div class="posts-page"></div>
+  <div class="posts-page">
+    <PostList />
+  </div>
 </template>
 
+<script>
+import PostList from '@/components/posts/PostList'
+export default {
+  name: 'BlogPosts',
+  components: {
+    PostList,
+  },
+}
+</script>
 <style scoped>
 .posts-page {
   display: flex;

@@ -3,29 +3,16 @@
     <section class="intro">
       <h1>Get the lastest tech news.</h1>
     </section>
-    <section class="featured-posts">
-      <PostPreview
-        id="1"
-        title="This is my first post"
-        preview-text="This is a small description about the first post"
-        thumbnail="https://live.staticflickr.com/2606/4469724658_b97305a5f0_c.jpg"
-      />
-      <PostPreview
-        id="2"
-        title="This is my first post"
-        preview-text="This is a small description about the first post"
-        thumbnail="https://live.staticflickr.com/2606/4469724658_b97305a5f0_c.jpg"
-      />
-    </section>
+    <PostList />
   </div>
 </template>
 
 <script>
-import PostPreview from '@/components/posts/PostPreview'
+import PostList from '@/components/posts/PostList'
 export default {
   name: 'IndexPage',
   components: {
-    PostPreview,
+    PostList,
   },
 }
 </script>
@@ -60,14 +47,5 @@ export default {
   .intro h1 {
     font-size: 2rem;
   }
-}
-
-.featured-posts {
-  display: flex;
-  padding: 20px;
-  box-sizing: border-box;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
 }
 </style>
