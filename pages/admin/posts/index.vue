@@ -1,7 +1,9 @@
 <template>
   <div class="admin-page">
     <section class="new-post">
-      <button @click="$router.push('/admin/posts/create')">Create Post</button>
+      <AppButton @click="$router.push('/admin/posts/create')"
+        >Create Post</AppButton
+      >
     </section>
     <section class="existing-posts">
       <h1>Post</h1>
@@ -12,12 +14,14 @@
 
 <script>
 import PostList from '@/components/posts/PostList'
-
+import AppButton from '@/components/ui/AppButton'
 export default {
   name: 'BlogAdmin',
   components: {
     PostList,
+    AppButton,
   },
+  layout: 'admin',
 }
 </script>
 
