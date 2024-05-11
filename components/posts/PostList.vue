@@ -2,12 +2,14 @@
   <section class="post-list">
     <PostPreview
       id="1"
+      :is-admin="isAdmin"
       title="This is my first post"
       preview-text="This is a small description about the first post"
       thumbnail="https://live.staticflickr.com/2606/4469724658_b97305a5f0_c.jpg"
     />
     <PostPreview
       id="2"
+      :is-admin="isAdmin"
       title="This is my first post"
       preview-text="This is a small description about the first post"
       thumbnail="https://live.staticflickr.com/2606/4469724658_b97305a5f0_c.jpg"
@@ -22,6 +24,13 @@ export default {
   name: 'BlogPostLists',
   components: {
     PostPreview,
+  },
+  props: {
+    isAdmin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 }
 </script>
