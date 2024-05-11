@@ -12,5 +12,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     next('/admin/posts')
   },
+  layout: 'admin',
 }
 </script>
