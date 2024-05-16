@@ -1,13 +1,15 @@
 <template>
   <div class="single-post-page">
     <section class="post">
-      <h1 class="post-title">Title of the Post</h1>
+      <h1 class="post-title">{{ loadedPost.title }}</h1>
       <div class="post-details">
-        <div class="post-detail">Last updated on XXXX</div>
-        <div class="post-detail">Written by Name</div>
+        <div class="post-detail">
+          Last updated on {{ loadedPost.updatedDate }}
+        </div>
+        <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
       <div>
-        <p class="post-content">Content of the post</p>
+        <p class="post-content">{{ loadedPost.content }}</p>
       </div>
     </section>
     <section class="post-feedback">
@@ -18,6 +20,41 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  asyncData(context) {
+    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          loadedPost: {
+            id: '1',
+            author: 'Ann',
+            title: `This is my First Post (ID: ${context.params.id})`,
+            updatedDate: new Date(),
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
+            thumbnailLink:
+              'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg',
+            previewText:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
+          },
+        })
+      }, 1000)
+
+      // if you want to throw an error, comment out the settimeout above and use the below
+      // reject(new Error('An Error occured.'))
+    })
+      .then((data) => {
+        return data
+      })
+      .catch((e) => context.error(e.message))
+  },
+}
+</script>
 
 <style scoped>
 .single-post-page {
@@ -32,7 +69,7 @@
 
 @media (min-width: 768px) {
   .post {
-    width: 600px;
+    width: 790px;
     margin: auto;
   }
 }
