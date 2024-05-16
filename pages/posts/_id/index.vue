@@ -23,24 +23,35 @@
 
 <script>
 export default {
-  asyncData(context, callback) {
+  asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          author: 'Ann',
-          title: `This is my First Post (ID: ${context.params.id})`,
-          updatedDate: new Date(),
-          content:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
-          thumbnailLink:
-            'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg',
-          previewText:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
-        },
+
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          loadedPost: {
+            id: '1',
+            author: 'Ann',
+            title: `This is my First Post (ID: ${context.params.id})`,
+            updatedDate: new Date(),
+            content:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
+            thumbnailLink:
+              'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg',
+            previewText:
+              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
+          },
+        })
+      }, 1000)
+
+      // if you want to throw an error, comment out the settimeout above and use the below
+      // reject(new Error('An Error occured.'))
+    })
+      .then((data) => {
+        return data
       })
-    }, 1000)
+      .catch((e) => context.error(e.message))
   },
 }
 </script>
