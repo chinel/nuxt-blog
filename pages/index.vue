@@ -52,6 +52,10 @@ export default {
       })
     }, 3000)
   },
+
+  created() {
+    this.$store.dispatch('setPosts', { posts: this.loadedPosts })
+  },
 }
 </script>
 
