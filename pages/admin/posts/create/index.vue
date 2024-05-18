@@ -20,7 +20,7 @@ export default {
       axios
         .post(
           'https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts.json',
-          postData
+          { ...postData, updatedDate: new Date() }
         )
         .then((data) => {
           console.log(data)

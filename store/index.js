@@ -25,7 +25,7 @@ const createStore = () => {
             vuexContext.commit('setPosts', { posts: postArray })
           })
           .catch((err) => {
-            context.error(err)
+            context.error(err.message)
           })
       },
       setPosts(vuexContext, payload) {
