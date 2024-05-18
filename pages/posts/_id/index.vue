@@ -22,36 +22,21 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
-    return new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          loadedPost: {
-            id: '1',
-            author: 'Ann',
-            title: `This is my First Post (ID: ${context.params.id})`,
-            updatedDate: new Date(),
-            content:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
-            thumbnailLink:
-              'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg',
-            previewText:
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
-          },
-        })
-      }, 1000)
-
-      // if you want to throw an error, comment out the settimeout above and use the below
-      // reject(new Error('An Error occured.'))
-    })
-      .then((data) => {
-        return data
+    return axios
+      .get(
+        `https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts/${context.params.id}.json`
+      )
+      .then((res) => {
+        return { loadedPost: res.data }
       })
-      .catch((e) => context.error(e.message))
+      .catch((err) => {
+        context.err(err)
+      })
   },
 }
 </script>
