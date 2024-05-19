@@ -24,6 +24,7 @@
 <script>
 import axios from 'axios'
 export default {
+  name: 'BlogPostDetail',
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 

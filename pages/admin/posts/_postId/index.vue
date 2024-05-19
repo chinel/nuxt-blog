@@ -1,12 +1,14 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <AdminPostForm :post="loadedPost" />
+      <AdminPostForm :post="loadedPost" @submit="updatePost" />
     </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 import AdminPostForm from '~/components/admin/AdminPostForm.vue'
 
 export default {
@@ -15,17 +17,29 @@ export default {
     AdminPostForm,
   },
   layout: 'admin',
-  data() {
-    return {
-      loadedPost: {
-        author: 'Ann',
-        title: 'This is my First Post',
-        thumbnailLink:
-          'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec nunc at tellus vehicula consequat.',
-      },
-    }
+  asyncData(context) {
+    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+
+    return axios
+      .get(
+        `https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts/${context.params.postId}.json`
+      )
+      .then((res) => {
+        console.log('res-->', res)
+        return { loadedPost: res.data }
+      })
+      .catch((err) => {
+        context.err(err)
+      })
+  },
+  methods: {
+    updatePost(postData) {
+      this.$store
+        .dispatch('editPost', { id: this.$route.params.postId, post: postData })
+        .then(() => {
+          this.$router.push('/admin')
+        })
+    },
   },
 }
 </script>
