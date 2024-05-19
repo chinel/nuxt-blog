@@ -10,6 +10,16 @@ const createStore = () => {
       setPosts(state, payload) {
         state.loadedPosts = payload.posts
       },
+      addPost(state, payload) {
+        state.loadedPosts.push(payload.post)
+      },
+
+      editPost(state, payload) {
+        const postIndex = state.loadedPosts.findIndex(
+          (post) => post.id === payload.editedPost.id
+        )
+        state.loadedPosts[postIndex] = payload.editedPost
+      },
     },
 
     actions: {
@@ -30,6 +40,35 @@ const createStore = () => {
       },
       setPosts(vuexContext, payload) {
         vuexContext.commit('setPosts', payload)
+      },
+      editPost(vuexContext, editedPost) {
+        return axios
+          .put(
+            `https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts/${editedPost.id}.json`,
+            editedPost.post
+          )
+          .then((data) => {
+            vuexContext.commit('editPost', { editedPost: editedPost.post })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      },
+      addPost(vuexContext, postData) {
+        const createdPost = { ...postData, updatedDate: new Date() }
+        return axios
+          .post(
+            'https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts.json',
+            createdPost
+          )
+          .then((res) => {
+            vuexContext.commit('addPost', {
+              post: { ...createdPost, id: res.data.name },
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       },
     },
 
