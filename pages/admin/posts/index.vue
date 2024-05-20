@@ -13,14 +13,8 @@
 </template>
 
 <script>
-import PostList from '@/components/posts/PostList'
-import AppButton from '@/components/ui/AppButton'
 export default {
   name: 'BlogAdmin',
-  components: {
-    PostList,
-    AppButton,
-  },
   layout: 'admin',
   computed: {
     loadedPosts() {

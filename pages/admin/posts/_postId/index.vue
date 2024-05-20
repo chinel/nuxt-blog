@@ -9,13 +9,8 @@
 <script>
 import axios from 'axios'
 
-import AdminPostForm from '~/components/admin/AdminPostForm.vue'
-
 export default {
   name: 'BlogAdminPost',
-  components: {
-    AdminPostForm,
-  },
   layout: 'admin',
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
