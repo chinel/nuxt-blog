@@ -21,9 +21,7 @@ export default {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
     return axios
-      .get(
-        `https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts/${context.params.postId}.json`
-      )
+      .get(process.env.baseURL + `/posts/${context.params.postId}.json`)
       .then((res) => {
         console.log('res-->', res)
         return { loadedPost: res.data }
