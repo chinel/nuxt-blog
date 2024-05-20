@@ -52,4 +52,8 @@ export default {
       process.env.BASE_URL ||
       'https://nuxt-blog-46857-default-rtdb.firebaseio.com',
   },
+  transition: {
+    name: 'fade',
+    mode: 'out-in',
+  },
 }
