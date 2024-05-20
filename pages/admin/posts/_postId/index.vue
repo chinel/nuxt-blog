@@ -9,21 +9,14 @@
 <script>
 import axios from 'axios'
 
-import AdminPostForm from '~/components/admin/AdminPostForm.vue'
-
 export default {
   name: 'BlogAdminPost',
-  components: {
-    AdminPostForm,
-  },
   layout: 'admin',
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
     return axios
-      .get(
-        `https://nuxt-blog-46857-default-rtdb.firebaseio.com/posts/${context.params.postId}.json`
-      )
+      .get(process.env.baseURL + `/posts/${context.params.postId}.json`)
       .then((res) => {
         console.log('res-->', res)
         return { loadedPost: res.data }

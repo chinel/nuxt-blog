@@ -7,12 +7,8 @@
 </template>
 
 <script>
-import AdminPostForm from '@/components/admin/AdminPostForm.vue'
 export default {
   name: 'BlogAdminCreate',
-  components: {
-    AdminPostForm,
-  },
   layout: 'admin',
   methods: {
     onSubmit(postData) {
