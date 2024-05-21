@@ -7,19 +7,16 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'BlogAdminPost',
   layout: 'admin',
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
-    return axios
-      .get(process.env.baseURL + `/posts/${context.params.postId}.json`)
-      .then((res) => {
-        console.log('res-->', res)
-        return { loadedPost: res.data }
+    return context.app.$axios
+      .$get(`/posts/${context.params.postId}.json`)
+      .then((data) => {
+        return { loadedPost: data }
       })
       .catch((err) => {
         context.err(err)

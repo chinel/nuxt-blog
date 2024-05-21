@@ -4,7 +4,7 @@
       <h1 class="post-title">{{ loadedPost.title }}</h1>
       <div class="post-details">
         <div class="post-detail">
-          Last updated on {{ loadedPost.updatedDate }}
+          Last updated on {{ loadedPost.updatedDate | date }}
         </div>
         <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
@@ -22,16 +22,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'BlogPostDetail',
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
-    return axios
-      .get(process.env.baseURL + `/posts/${context.params.id}.json`)
-      .then((res) => {
-        return { loadedPost: res.data }
+    return context.app.$axios
+      .$get(`/posts/${context.params.id}.json`)
+      .then((data) => {
+        return { loadedPost: data }
       })
       .catch((err) => {
         context.err(err)

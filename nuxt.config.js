@@ -30,7 +30,7 @@ export default {
   css: [`~/assets/styles/main.css`],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [`~plugins/core-components.js`],
+  plugins: [`~plugins/core-components.js`, `~plugins/date-filter.js`],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -42,8 +42,14 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ['@nuxtjs/axios'],
 
+  axios: {
+    baseURL:
+      process.env.BASE_URL ||
+      'https://nuxt-blog-46857-default-rtdb.firebaseio.com',
+    credentials: false,
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
