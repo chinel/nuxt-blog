@@ -57,9 +57,13 @@ export default {
     baseURL:
       process.env.BASE_URL ||
       'https://nuxt-blog-46857-default-rtdb.firebaseio.com',
+    fbAPIKEY: 'AIzaSyAS3NvYbIpiZbYFDcueJIB0VSz8umGps3c',
   },
   transition: {
     name: 'fade',
     mode: 'out-in',
+  },
+  router: {
+    middleware: 'log',
   },
 }

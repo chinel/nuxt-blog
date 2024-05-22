@@ -28,6 +28,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'BlogAboutPage',
+  middleware: 'log',
+}
+</script>
+
 <style scoped>
 .about-page {
   text-align: center;
