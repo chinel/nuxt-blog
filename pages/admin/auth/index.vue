@@ -1,9 +1,16 @@
 <template>
   <div class="admin-auth-page">
     <div class="auth-container">
-      <form class="auth-form">
-        <AppControlInput type="email">E-Mail Address</AppControlInput>
-        <AppControlInput type="password">Password</AppControlInput>
+      <div v-if="error !== ''" class="error">
+        <span> {{ error }}</span>
+      </div>
+      <form class="auth-form" @submit.prevent="onSubmit">
+        <AppControlInput v-model="email" type="email"
+          >E-Mail Address</AppControlInput
+        >
+        <AppControlInput v-model="password" type="password"
+          >Password</AppControlInput
+        >
         <AppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</AppButton>
         <AppButton
           type="button"
@@ -24,12 +31,52 @@ export default {
   data() {
     return {
       isLogin: true,
+      email: '',
+      password: '',
+      error: '',
     }
+  },
+
+  methods: {
+    onSubmit() {
+      let path
+      if (!this.isLogin) {
+        path = 'signUp'
+      } else {
+        path = 'signInWithPassword'
+      }
+      this.$axios
+        .$post(
+          `https://identitytoolkit.googleapis.com/v1/accounts:${path}?key=${process.env.fbAPIKEY}`,
+          {
+            email: this.email,
+            password: this.password,
+            returnSecureToken: true,
+          }
+        )
+        .then((result) => {
+          this.error = ''
+          console.log(result)
+        })
+        .catch((error) => {
+          if (error.message === 'Request failed with status code 400') {
+            this.error = 'Email Address already exists'
+          } else {
+            this.error = 'An error occured. Please try again.'
+          }
+        })
+    },
   },
 }
 </script>
 
 <style scoped>
+.error {
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+}
 .admin-auth-page {
   padding: 20px;
   display: flex;
