@@ -33,37 +33,29 @@ export default {
       isLogin: true,
       email: '',
       password: '',
-      error: '',
     }
+  },
+
+  computed: {
+    error() {
+      return this.$store.getters.authError
+    },
   },
 
   methods: {
     onSubmit() {
-      let path
-      if (!this.isLogin) {
-        path = 'signUp'
-      } else {
-        path = 'signInWithPassword'
-      }
-      this.$axios
-        .$post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:${path}?key=${process.env.fbAPIKEY}`,
-          {
-            email: this.email,
-            password: this.password,
-            returnSecureToken: true,
-          }
-        )
-        .then((result) => {
-          this.error = ''
-          console.log(result)
+      this.$store
+        .dispatch('authenticateUsers', {
+          isLogin: this.isLogin,
+          email: this.email,
+          password: this.password,
         })
-        .catch((error) => {
-          if (error.message === 'Request failed with status code 400') {
-            this.error = 'Email Address already exists'
-          } else {
-            this.error = 'An error occured. Please try again.'
-          }
+        .then((res) => {
+          console.log(res)
+          this.$router.push('/admin')
+        })
+        .catch((e) => {
+          console.log(e)
         })
     },
   },
