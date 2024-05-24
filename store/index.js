@@ -28,6 +28,9 @@ const createStore = () => {
       setAuthError(state, message) {
         state.authError = message
       },
+      clearToken(state) {
+        state.token = null
+      },
     },
 
     actions: {
@@ -99,6 +102,7 @@ const createStore = () => {
             vuexContext.commit('setAuthError', '')
 
             vuexContext.commit('setToken', result.idToken)
+            vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
           })
           .catch((error) => {
             if (error.response) {
@@ -121,6 +125,11 @@ const createStore = () => {
             throw new Error('An error occured')
           })
       },
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration)
+      },
     },
 
     getters: {
@@ -129,6 +138,9 @@ const createStore = () => {
       },
       authError(state) {
         return state.authError
+      },
+      isAuthenticated(state) {
+        return state.token != null
       },
     },
   })
