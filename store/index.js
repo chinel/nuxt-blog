@@ -28,6 +28,9 @@ const createStore = () => {
       setAuthError(state, message) {
         state.authError = message
       },
+      clearToken(state) {
+        state.token = null
+      },
     },
 
     actions: {
@@ -52,7 +55,8 @@ const createStore = () => {
       editPost(vuexContext, editedPost) {
         return this.$axios
           .$put(
-            process.env.baseURL + `/posts/${editedPost.id}.json`,
+            process.env.baseURL +
+              `/posts/${editedPost.id}.json?auth=${vuexContext.state.token}`,
             editedPost.post
           )
           .then((data) => {
@@ -65,7 +69,10 @@ const createStore = () => {
       addPost(vuexContext, postData) {
         const createdPost = { ...postData, updatedDate: new Date() }
         return this.$axios
-          .$post(process.env.baseURL + '/posts.json', createdPost)
+          .$post(
+            process.env.baseURL + `/posts.json?auth=${vuexContext.state.token}`,
+            createdPost
+          )
           .then((data) => {
             vuexContext.commit('addPost', {
               post: { ...createdPost, id: data.name },
@@ -95,6 +102,7 @@ const createStore = () => {
             vuexContext.commit('setAuthError', '')
 
             vuexContext.commit('setToken', result.idToken)
+            vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
           })
           .catch((error) => {
             if (error.response) {
@@ -117,6 +125,11 @@ const createStore = () => {
             throw new Error('An error occured')
           })
       },
+      setLogoutTimer(vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration)
+      },
     },
 
     getters: {
@@ -125,6 +138,9 @@ const createStore = () => {
       },
       authError(state) {
         return state.authError
+      },
+      isAuthenticated(state) {
+        return state.token != null
       },
     },
   })
