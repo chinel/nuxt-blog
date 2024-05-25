@@ -10,7 +10,7 @@
 export default {
   name: 'BlogAdminCreate',
   layout: 'admin',
-  middleware: 'auth',
+  middleware: ['check-auth', 'auth'],
   methods: {
     onSubmit(postData) {
       this.$store.dispatch('addPost', postData).then(() => {
