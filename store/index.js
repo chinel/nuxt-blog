@@ -9,6 +9,17 @@ const createStore = () => {
       token: null,
       authError: '',
     },
+    getters: {
+      loadedPosts(state) {
+        return state.loadedPosts
+      },
+      authError(state) {
+        return state.authError
+      },
+      isAuthenticated(state) {
+        return state.token != null
+      },
+    },
     mutations: {
       setPosts(state, payload) {
         state.loadedPosts = payload.posts
@@ -193,18 +204,6 @@ const createStore = () => {
         Cookies.remove('expirationDate')
         localStorage.removeItem('token')
         localStorage.removeItem('tokenExpiration')
-      },
-    },
-
-    getters: {
-      loadedPosts(state) {
-        return state.loadedPosts
-      },
-      authError(state) {
-        return state.authError
-      },
-      isAuthenticated(state) {
-        return state.token != null
       },
     },
   })

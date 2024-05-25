@@ -27,6 +27,7 @@
 <script>
 export default {
   name: 'AdminAuthPage',
+
   layout: 'admin',
   data() {
     return {
@@ -40,8 +41,16 @@ export default {
     error() {
       return this.$store.getters.authError
     },
-  },
 
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated
+    },
+  },
+  mounted() {
+    if (!this.isLoggedIn) {
+      this.$router.push('/admin')
+    }
+  },
   methods: {
     onSubmit() {
       this.$store
