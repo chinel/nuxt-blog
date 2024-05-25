@@ -163,6 +163,7 @@ const createStore = () => {
           const jwtCookie = req.headers.cookie
             .split(';')
             .find((c) => c.trim().startsWith('jwt='))
+          console.log(jwtCookie)
           if (!jwtCookie) {
             return
           }
@@ -180,11 +181,18 @@ const createStore = () => {
 
         if (new Date().getTime() > +expirationDate || !token) {
           console.log('No token or invalid token')
-          vuexContext.commit('clearToken')
+          vuexContext.dispatch('logout')
           return
         }
 
         vuexContext.commit('setToken', token)
+      },
+      logout(vuexContext) {
+        vuexContext.commit('clearToken')
+        Cookies.remove('jwt')
+        Cookies.remove('expirationDate')
+        localStorage.removeItem('token')
+        localStorage.removeItem('tokenExpiration')
       },
     },
 

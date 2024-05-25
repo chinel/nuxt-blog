@@ -1,12 +1,17 @@
 <template>
   <div>
+    <AdminHeader />
     <nuxt />
   </div>
 </template>
 
 <script>
+import AdminHeader from '@/components/navigation/AdminHeader.vue'
 export default {
   name: 'BlogAdminLayout',
+  components: {
+    AdminHeader,
+  },
 }
 </script>
 
