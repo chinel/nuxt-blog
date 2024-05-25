@@ -54,6 +54,7 @@ const createStore = () => {
         vuexContext.commit('setPosts', payload)
       },
       editPost(vuexContext, editedPost) {
+        console.log(vuexContext)
         return this.$axios
           .$put(
             process.env.baseURL +
@@ -61,10 +62,17 @@ const createStore = () => {
             editedPost.post
           )
           .then((data) => {
+            vuexContext.commit('setAuthError', '')
             vuexContext.commit('editPost', { editedPost: editedPost.post })
           })
           .catch((err) => {
             console.log(err)
+
+            if (err.response.status === 401) {
+              vuexContext.commit('setAuthError', 'Please login to continue.')
+
+              throw new Error('Unauthorized')
+            }
           })
       },
       addPost(vuexContext, postData) {
@@ -75,12 +83,20 @@ const createStore = () => {
             createdPost
           )
           .then((data) => {
+            vuexContext.commit('setAuthError', '')
+
             vuexContext.commit('addPost', {
               post: { ...createdPost, id: data.name },
             })
           })
           .catch((err) => {
             console.log(err)
+
+            if (err.response.status === 401) {
+              vuexContext.commit('setAuthError', 'Please login to continue.')
+
+              throw new Error('Unauthorized')
+            }
           })
       },
       authenticateUsers(vuexContext, authData) {
@@ -100,7 +116,8 @@ const createStore = () => {
             }
           )
           .then((result) => {
-            const expirationDate = new Date() + result.expiresIn * 1000
+            const expirationDate =
+              new Date().getTime() + +result.expiresIn * 1000
             vuexContext.commit('setAuthError', '')
 
             vuexContext.commit('setToken', result.idToken)
@@ -108,7 +125,6 @@ const createStore = () => {
             localStorage.setItem('tokenExpiration', expirationDate)
             Cookies.set('jwt', result.idToken)
             Cookies.set('expirationDate', expirationDate)
-            vuexContext.dispatch('setLogoutTimer', result.expiresIn * 1000)
           })
           .catch((error) => {
             if (error.response) {
@@ -131,11 +147,11 @@ const createStore = () => {
             throw new Error('An error occured')
           })
       },
-      setLogoutTimer(vuexContext, duration) {
-        setTimeout(() => {
-          vuexContext.commit('clearToken')
-        }, duration)
-      },
+      // setLogoutTimer(vuexContext, duration) {
+      //   setTimeout(() => {
+      //     vuexContext.commit('clearToken')
+      //   }, duration)
+      // },
       initAuth(vuexContext, req) {
         let token
         let expirationDate
@@ -160,16 +176,13 @@ const createStore = () => {
         } else {
           token = localStorage.getItem('token')
           expirationDate = localStorage.getItem('tokenExpiration')
-
-          if (new Date().getTime() > +expirationDate || !token) {
-            return
-          }
         }
 
-        vuexContext.dispatch(
-          'setLogoutTimer',
-          +expirationDate - new Date().getTime()
-        )
+        if (new Date().getTime() > +expirationDate || !token) {
+          console.log('No token or invalid token')
+          vuexContext.commit('clearToken')
+          return
+        }
 
         vuexContext.commit('setToken', token)
       },

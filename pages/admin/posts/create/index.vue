@@ -13,9 +13,17 @@ export default {
   middleware: ['check-auth', 'auth'],
   methods: {
     onSubmit(postData) {
-      this.$store.dispatch('addPost', postData).then(() => {
-        this.$router.push('/admin')
-      })
+      this.$store
+        .dispatch('addPost', postData)
+        .then(() => {
+          this.$router.push('/admin')
+        })
+        .catch((e) => {
+          console.log(e)
+          if (e.message === 'Unauthorized') {
+            this.$router.push('/admin/auth')
+          }
+        })
     },
   },
 }
