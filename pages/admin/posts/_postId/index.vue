@@ -30,6 +30,12 @@ export default {
         .then(() => {
           this.$router.push('/admin')
         })
+        .catch((e) => {
+          console.log(e.message)
+          if (e.message === 'Unauthorized') {
+            this.$router.push('/admin/auth')
+          }
+        })
     },
   },
 }
