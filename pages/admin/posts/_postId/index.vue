@@ -10,7 +10,7 @@
 export default {
   name: 'BlogAdminPost',
   layout: 'admin',
-  middleware: 'auth',
+  middleware: ['check-auth', 'auth'],
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
