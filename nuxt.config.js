@@ -1,3 +1,5 @@
+import bodyParser from 'body-parser'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -58,6 +60,7 @@ export default {
       process.env.BASE_URL ||
       'https://nuxt-blog-46857-default-rtdb.firebaseio.com',
     fbAPIKEY: process.env.FB_API_KEY,
+    appURL: 'http://localhost:3000',
   },
   transition: {
     name: 'fade',
@@ -66,4 +69,8 @@ export default {
   router: {
     middleware: 'log',
   },
+  serverMiddleware: [
+    bodyParser.json(), // parses incoming json body
+    '~/api', // /index.js can be ommitted because it will look for index file automatically
+  ],
 }
