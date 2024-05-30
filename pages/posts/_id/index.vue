@@ -27,6 +27,9 @@ export default {
   asyncData(context) {
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
 
+    if (context.payload) {
+      return { loadedPost: context.payload.postData }
+    }
     return context.app.$axios
       .$get(`/posts/${context.params.id}.json`)
       .then((data) => {
