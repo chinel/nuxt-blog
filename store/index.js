@@ -188,7 +188,7 @@ const createStore = () => {
             .find((c) => c.trim().startsWith('expirationDate='))
 
           expirationDate = jwtExpirationDate.split('=')[1]
-        } else {
+        } else if (process.client) {
           token = localStorage.getItem('token')
           expirationDate = localStorage.getItem('tokenExpiration')
         }
