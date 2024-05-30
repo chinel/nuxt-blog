@@ -75,6 +75,7 @@ export default {
     '~/api', // /index.js can be ommitted because it will look for index file automatically
   ],
   ssr: true,
+  // target: 'static', // used if running static mode
   generate: {
     routes: async function () {
       const res = await axios.get(
