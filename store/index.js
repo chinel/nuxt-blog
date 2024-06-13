@@ -177,7 +177,7 @@ const createStore = () => {
           const jwtCookie = req.headers.cookie
             .split(';')
             .find((c) => c.trim().startsWith('jwt='))
-          console.log(jwtCookie)
+
           if (!jwtCookie) {
             return
           }
