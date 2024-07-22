@@ -21,7 +21,7 @@
     "express": "^4.19.2",
     "js-cookie": "^3.0.5",
     "nuxt": "^2.15.8",
-    "vue": "^2.7.10",
+    "vue": "^3.4.33",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
   },
